@@ -4,10 +4,6 @@
 
 ## About this Nerdpack
 
-> Write one or two short paragraphs that describe what your app does—and more importantly, why users should care. Avoid too much technical jargon: Your content should be understandable to someone who doesn't have much knowledge of New Relic's technologies. And include links to New Relic docs or other apps.
->
-> For example:
-
 This application give "application engineer" security insights for SRE operations even if you don't have ant security knowledge.
 
 You can "Notice" if the security problem happen on application server now, and you can start to talk with sercurity engineer.
@@ -18,10 +14,6 @@ This project is distributed under the [Apache 2 license](LICENSE).
 
 ## What do you need to make this work?
 
-> List any prerequisites for using your app, and include links to other New Relic features when necessary.
->
-> For example:
-
 Required:
 
 - [New Relic APM agent(s) installed](https://docs.newrelic.com/docs/agents/manage-apm-agents) on your application.
@@ -31,8 +23,6 @@ Required:
 - [Fluentd setting](https://github.com/nrkk-azuma/fluentd-config-for-trendmicro)
 
 ## Getting started
-
-> Include a step-by-step procedure on how to get your app installed and deployed. The clone and deploy steps are similar across all apps. If your app has additional steps required to get started, include them here or in their own section.
 
 1. Ensure that you have [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) and [NPM](https://www.npmjs.com/get-npm) installed. If you're unsure whether you have one or both of them installed, run the following commands. (If you have them installed, these commands return a version number; if not, the commands aren't recognized.)
 ```bash
@@ -52,14 +42,10 @@ Visit [https://one.newrelic.com/?nerdpacks=local](https://one.newrelic.com/?nerd
 
 ## Deploying this Nerdpack
 
-> Include the necessary steps to deploy your app. Generally, you shouldn't need to change any of these steps.
-
 Open a command prompt in the app's directory and run the following commands.
 
 ```bash
-# If you need to create a new uuid for the account to which you're deploying this app, use the following
-# nr1 nerdpack:uuid -g [--profile=your_profile_name]
-# to see a list of APIkeys / profiles available in your development environment, run nr1 credentials:list
+nr1 nerdpack:uuid -g [--profile=your_profile_name]
 nr1 nerdpack:publish [--profile=your_profile_name]
 nr1 nerdpack:deploy [-c [DEV|BETA|STABLE]] [--profile=your_profile_name]
 nr1 nerdpack:subscribe [-c [DEV|BETA|STABLE]] [--profile=your_profile_name]
@@ -74,8 +60,6 @@ New Relic has open-sourced this project. This project is provided AS-IS WITHOUT 
 We encourage you to bring your experiences and questions to the [Explorers Hub](https://discuss.newrelic.com) where our community members collaborate on solutions and new ideas.
 
 # Contributing
-
-> Work with the Open Source Office to update the email alias below.
 
 Contributions are encouraged! If you submit an enhancement request, we'll invite you to contribute the change yourself. Please review our [Contributors Guide](CONTRIBUTING.md).
 
