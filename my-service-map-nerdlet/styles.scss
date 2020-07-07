@@ -1,0 +1,78 @@
+@import url('//cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css');
+
+.point {
+  width: 100%;
+  height: 100%;
+  .mini {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    right: 0;
+    bottom: 0;
+  }
+  .circle {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 4px solid #4CAF5F;
+    background-color: #ffffff;
+    &.error {
+      border: 4px solid #d44e4e;
+    }
+    &.warning {
+      border: 4px solid #d4be4e;
+    }
+    &.rotate {
+      border-style: dashed;
+      animation: r2 3s linear infinite;
+    }
+  }
+}
+
+.closeButton {
+  position: absolute;
+  background-color: #ffffff;
+  right: 0;
+  top: 0;
+}
+.settingButton {
+  position: absolute;
+  top: 0;
+  right: 16px;
+}
+.clearButton {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+}
+
+@keyframes r2 {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(-360deg); }
+}
+.detailCharts {
+  position: absolute;
+  height: 160px;
+}
+.deepDiveModal {
+  with: 800px;
+}
+.ui {
+  &.segment {
+    &.pushable {
+      position: absolute;
+      background-color: transparent;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      .pusher {
+        height: 100%;
+      }
+    }
+  }
+}
+
+.overflow {
+  overflow-y: scroll;
+}

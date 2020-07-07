@@ -1,0 +1,7 @@
+{
+    "schemaType": "LAUNCHER",
+    "id": "security-deep-dive-launcher",
+    "displayName": "Security Insight with Trend Micro",
+    "description": "Security Insight with Trend Micro",
+    "rootNerdletId": "security-deep-dive-main-nerdlet"
+}
