@@ -3,6 +3,7 @@ import { NrqlQuery, NerdGraphQuery, PlatformStateContext, BarChart, AutoSizer,
     LineChart, StackedBarChart, Card, CardHeader, CardBody,
     Grid, GridItem } from 'nr1';
 import { timeRangeToNrql } from '@newrelic/nr1-community';
+import DSLogQuery from '../util/ds-log-query';
 
 
 export default class SecuritySummary extends React.Component {
@@ -21,6 +22,7 @@ query ($accountId: [EntityGuid]!, $query: String){
   }
 }
 `;
+
     constructor(props) {
         super(props);
         if (!this.props.accountId) {
@@ -46,7 +48,8 @@ query ($accountId: [EntityGuid]!, $query: String){
         NerdGraphQuery.query({
             query: this.nrql,
             variables: {
-                query: "FROM Log SELECT count(*) FACET CASES(WHERE (EventType = 'AntiMalwareEvent' AND severity = '6') OR (EventType = 'WebReputationEvent' AND (severity in ('7','8'))) OR (EventType='IntrusionPreventionEvent' AND (severity in ('8','10'))) OR (EventType='IntegrityMonitoringEvent' AND (severity in ('8','10'))) OR (EventType='LogInspectionEvent' AND (severity in ('8','10'))) OR (EventType = 'ApplicationControlEvent' AND severity = '6' AND act = 'blocked') OR (EventType = 'SystemEvent' AND severity = '8') OR (EventType = 'FirewallEvent' AND repeatCount > 5 AND severity = '6') as 'Danger',  WHERE (EventType = 'WebReputationEvent' AND (severity in ('6'))) OR (EventType='IntrusionPreventionEvent' AND (severity in ('5','6'))) OR (EventType='IntegrityMonitoringEvent' AND (severity in ('6'))) OR (EventType='LogInspectionEvent' AND (severity in ('6'))) OR (EventType = 'ApplicationControlEvent' AND severity = '6' AND act = 'detectOnly') OR (EventType = 'SystemEvent' AND severity = '6') OR (EventType = 'FirewallEvent' AND repeatCount <= 5 AND severity = '5') as 'Warn') TIMESERIES " + since,
+                //query: "FROM Log SELECT count(*) FACET CASES(WHERE (EventType = 'AntiMalwareEvent' AND severity = '6') OR (EventType = 'WebReputationEvent' AND (severity in ('7','8'))) OR (EventType='IntrusionPreventionEvent' AND (severity in ('8','10'))) OR (EventType='IntegrityMonitoringEvent' AND (severity in ('8','10'))) OR (EventType='LogInspectionEvent' AND (severity in ('8','10'))) OR (EventType = 'ApplicationControlEvent' AND severity = '6' AND act = 'blocked') OR (EventType = 'SystemEvent' AND severity = '8') OR (EventType = 'FirewallEvent' AND repeatCount > 5 AND severity = '6') as 'Danger',  WHERE (EventType = 'WebReputationEvent' AND (severity in ('6'))) OR (EventType='IntrusionPreventionEvent' AND (severity in ('5','6'))) OR (EventType='IntegrityMonitoringEvent' AND (severity in ('6'))) OR (EventType='LogInspectionEvent' AND (severity in ('6'))) OR (EventType = 'ApplicationControlEvent' AND severity = '6' AND act = 'detectOnly') OR (EventType = 'SystemEvent' AND severity = '6') OR (EventType = 'FirewallEvent' AND repeatCount <= 5 AND severity = '5') as 'Warn') TIMESERIES " + since,
+                query: DSLogQuery.logAllQuery  + since,
                 accountId: this.state.accountId
             }
         }).then(result => result.data.actor.account.nrql.results).then(result => {

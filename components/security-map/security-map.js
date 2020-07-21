@@ -10,6 +10,7 @@ import { UserStorageMutation, UserStorageQuery, NerdGraphQuery, NrqlQuery,
 import { Graph } from 'react-d3-graph';
 import { timeRangeToNrql } from '@newrelic/nr1-community';
 import dsimage from '../../img/ds.png';
+import DSLogQuery from '../util/ds-log-query';
 
 // https://docs.newrelic.com/docs/new-relic-programmable-platform-introduction
 export default class SecurityMap extends React.Component {
@@ -185,7 +186,7 @@ query ($ids: [EntityGuid]!) {
                 }),
                 links
             };
-            if (mapData.links.length > 0) {
+            if (mapData.links.length > 0 || this.state.mapData.nodes[0].id== 'dummy') {
                 this.state.mapData = mapData;
                 this.setState({mapData});
             }
@@ -218,14 +219,14 @@ query ($ids: [EntityGuid]!) {
             NerdGraphQuery.query({
                 query: this.nrql,
                 variables: {
-                    query: "FROM Log SELECT count(*) FACET Hostname, dvchost WHERE (EventType = 'AntiMalwareEvent' AND severity = '6') OR (EventType = 'WebReputationEvent' AND (severity in ('7','8'))) OR (EventType='IntrusionPreventionEvent' AND (severity in ('8','10'))) OR (EventType='IntegrityMonitoringEvent' AND (severity in ('8','10'))) OR (EventType='LogInspectionEvent' AND (severity in ('8','10'))) OR (EventType = 'ApplicationControlEvent' AND severity = '6' AND act = 'blocked') OR (EventType = 'SystemEvent' AND severity = '8') OR (EventType = 'FirewallEvent' AND repeatCount > 5 AND severity = '6') " + since,
+                    query: "FROM Log SELECT count(*) FACET Hostname, dvchost WHERE " + DSLogQuery.logDangerCond + " " + since,
                     accountId
                 }
             }),
             NerdGraphQuery.query({
                 query: this.nrql,
                 variables: {
-                    query: "FROM Log SELECT count(*) FACET Hostname, dvchost WHERE (EventType = 'WebReputationEvent' AND (severity in ('6'))) OR (EventType='IntrusionPreventionEvent' AND (severity in ('5','6'))) OR (EventType='IntegrityMonitoringEvent' AND (severity in ('6'))) OR (EventType='LogInspectionEvent' AND (severity in ('6'))) OR (EventType = 'ApplicationControlEvent' AND severity = '6' AND act = 'detectOnly') OR (EventType = 'SystemEvent' AND severity = '6') OR (EventType = 'FirewallEvent' AND repeatCount <= 5 AND severity = '5')",
+                    query: "FROM Log SELECT count(*) FACET Hostname, dvchost WHERE " + DSLogQuery.logWarnCond + " " + since,
                     accountId
                 }
             }),

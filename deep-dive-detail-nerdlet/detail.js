@@ -9,6 +9,7 @@ import { NrqlQuery, navigation,
 import { timeRangeToNrql } from '@newrelic/nr1-community';
 
 import SecurityCard from "../components/security-card/security-card";
+import DSLogQuery from "../components/util/ds-log-query";
 
 import IMG_AhtiMalware from '../img/anti-malware.png';
 import IMG_ApplicationControl from '../img/application-control.png';
@@ -57,7 +58,7 @@ export default class DeepDiveDetail extends React.Component {
         var startTime = timeRange.duration ? (new Date().getTime() - timeRange.duration) : timeRange.begin_time;
         Promise.all([
             NrqlQuery.query({
-                query: "FROM Log Select count(*) FACET EventType TIMESERIES WHERE SeverityString NOT LIKE '%Info%' AND (" + this.state.logKey + ") " + since,
+                query: "FROM Log Select count(*) FACET EventType TIMESERIES WHERE ((" + DSLogQuery.logDangerCond + ") OR (" + DSLogQuery.logWarnCond + ")) AND (" + this.state.logKey + ") " + since,
                 accountId: this.state.account.id
             }).then((result) => {
                 var dataSet = {
