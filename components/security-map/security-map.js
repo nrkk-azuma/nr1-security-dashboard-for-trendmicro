@@ -50,8 +50,8 @@ query ($accountId: [EntityGuid]!, $query: String){
 
     componentDidUpdate(prevProps) {
         if (this.props.accountId !== prevProps.accountId
-            || this.props.selectedEntities.length !== prevProps.selectedEntities.length ||
-            this.props.timeRange.since != this.state.timeRange.since
+          || this.props.selectedEntities.length !== prevProps.selectedEntities.length ||
+          this.props.timeRange.since != this.state.timeRange.since
         ) {
             this.state.selectedEntities = this.props.selectedEntities;
             this.state.timeRange = this.props.timeRange;
@@ -68,9 +68,9 @@ query ($accountId: [EntityGuid]!, $query: String){
             clearTimeout(this.state.timer);
         }
         this.loadSecurityData()
-            .then(()=>{
-                this.loadMapData();
-            });
+          .then(()=>{
+              this.loadMapData();
+          });
     }
     loadMapData() {
 
@@ -134,36 +134,36 @@ query ($ids: [EntityGuid]!) {
             links.forEach(link => linkMap[`${link.source}_${link.target}`] = link);
             result.data.actor.entities.map(entity => {
                 entity.relationships
-                    .map(result => {
-                        var source = result.type == 'CALLS' ? result.source : result.target;
-                        var target = result.type == 'CALLS' ? result.target : result.source;
+                  .map(result => {
+                      var source = result.type == 'CALLS' ? result.source : result.target;
+                      var target = result.type == 'CALLS' ? result.target : result.source;
 
-                        const sourceKey = '[' + source.entity.domain + ']' + source.entity.name;
-                        const targetKey = '[' + target.entity.domain + ']' + target.entity.name;
+                      const sourceKey = '[' + source.entity.domain + ']' + source.entity.name;
+                      const targetKey = '[' + target.entity.domain + ']' + target.entity.name;
 
-                        if (this.assertNodeDomain(source.entity.domain) && selectEntityMap[sourceKey]) {
-                            nodeMap[sourceKey] = nodeMap[sourceKey] || source;
-                            nodeMap[sourceKey].appName = source.entity.name;
-                        } else {
-                            delete nodeMap[sourceKey];
-                            console.log(sourceKey);
-                        }
-                        if (this.assertNodeDomain(target.entity.domain) && selectEntityMap[targetKey]) {
-                            nodeMap[targetKey] = nodeMap[targetKey] || target;
-                            nodeMap[targetKey].appName = target.entity.name;
-                        } else {
-                            delete nodeMap[targetKey];
-                        }
-                        if (!linkMap[`${sourceKey}_${targetKey}`]
-                            && nodeMap[sourceKey] && nodeMap[targetKey]) {
-                            const link = {
-                                "source": sourceKey,
-                                "target": targetKey
-                            };
-                            links.push(link);
-                            linkMap[`${link.source}_${link.target}`] = link;
-                        }
-                    })
+                      if (this.assertNodeDomain(source.entity.domain) && selectEntityMap[sourceKey]) {
+                          nodeMap[sourceKey] = nodeMap[sourceKey] || source;
+                          nodeMap[sourceKey].appName = source.entity.name;
+                      } else {
+                          delete nodeMap[sourceKey];
+                          console.log(sourceKey);
+                      }
+                      if (this.assertNodeDomain(target.entity.domain) && selectEntityMap[targetKey]) {
+                          nodeMap[targetKey] = nodeMap[targetKey] || target;
+                          nodeMap[targetKey].appName = target.entity.name;
+                      } else {
+                          delete nodeMap[targetKey];
+                      }
+                      if (!linkMap[`${sourceKey}_${targetKey}`]
+                        && nodeMap[sourceKey] && nodeMap[targetKey]) {
+                          const link = {
+                              "source": sourceKey,
+                              "target": targetKey
+                          };
+                          links.push(link);
+                          linkMap[`${link.source}_${link.target}`] = link;
+                      }
+                  })
             });
             const mapData = {
                 nodes: Object.keys(nodeMap).map((k, idx) => {
@@ -171,8 +171,8 @@ query ($ids: [EntityGuid]!) {
                     var appName = nodeMap[k].appName;
                     var sdflg = entity.domain !== 'BROWSER' && securityData[appName] && securityData[appName].hasSecurityIssue;
                     var logKey = entity.domain !== 'BROWSER' && securityData[appName]
-                        ? securityData[appName].logKeys.filter(k=>!!k).map(k=>k.name+'=\''+k.value+'\'').join(' OR ')
-                        : '';
+                      ? securityData[appName].logKeys.filter(k=>!!k).map(k=>k.name+'=\''+k.value+'\'').join(' OR ')
+                      : '';
                     logKey
                     var hosts = securityData[appName].hosts;
                     var level = entity.domain !== 'BROWSER' && securityData[appName].level;
@@ -240,21 +240,21 @@ query ($ids: [EntityGuid]!) {
             const { securityData } = this.state;
             const appHostMap = {};
             results[0].data.actor.account.nrql.results
-                .forEach(record => appHostMap[record.facet] = record["uniques.host"])
+              .forEach(record => appHostMap[record.facet] = record["uniques.host"])
             const hostLogCountMap = {};
-            results[1].data.actor.account.nrql.results
-                .forEach(log => hostLogCountMap[this.getIP(log.facet.join(','))] = {
-                    count: log.count,
-                    level: 2,
-                    groups: [{name: 'Hostname', value: log.facet[0]}, {name: 'dvchost', value: log.facet[1]}]});
             results[2].data.actor.account.nrql.results
-                .forEach(log => hostLogCountMap[this.getIP(log.facet.join(','))] = {
-                    count: log.count,
-                    level: 1,
-                    groups: [{name: 'Hostname', value: log.facet[0]}, {name: 'dvchost', value: log.facet[1]}]});
+              .forEach(log => hostLogCountMap[this.getIP(log.facet.join(','))] = {
+                  count: log.count,
+                  level: 1,
+                  groups: [{name: 'Hostname', value: log.facet[0]}, {name: 'dvchost', value: log.facet[1]}]});
+            results[1].data.actor.account.nrql.results
+              .forEach(log => hostLogCountMap[this.getIP(log.facet.join(','))] = {
+                  count: log.count,
+                  level: 2,
+                  groups: [{name: 'Hostname', value: log.facet[0]}, {name: 'dvchost', value: log.facet[1]}]});
             const privateIpInstanceIdMap = {};
             results[3].data.chart
-                .forEach(sample => privateIpInstanceIdMap[sample.data[0].entityName] = sample.metadata.groups.filter(g=>g.type=='facet').map(g=>this.getIP(g.value)));
+              .forEach(sample => privateIpInstanceIdMap[sample.data[0].entityName] = sample.metadata.groups.filter(g=>g.type=='facet').map(g=>this.getIP(g.value)));
             Object.keys(appHostMap).map(appName => {
                 var hosts = appHostMap[appName];
                 var entityKeys = hosts.map(host => privateIpInstanceIdMap[host]).reduce((a,b)=>{a.push.apply(a,b);return a}, []);
@@ -279,7 +279,10 @@ query ($ids: [EntityGuid]!) {
         if (this.ipPtn.test(str)) {
             return this.ipPtn.exec(str.replace('ec2',''))[0].replace(/-/g, '.');
         }
-        return str;
+        if (str) {
+            return str.replace(/(^,|,$)/, '');
+        }
+        return null;
     }
 
     assertNodeDomain(domain) {
